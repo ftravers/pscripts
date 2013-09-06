@@ -3,6 +3,7 @@ from shutil import move
 from os import remove, close
 
 def increment_version():
+    return "hello"
 #    search_pattern = r'^the_version=\'
 
 def hello():
