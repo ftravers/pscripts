@@ -3,7 +3,7 @@
 import argparse, pdb, sys
 import pscripts.deployment as d
 
-# pdb.set_trace()
+pdb.set_trace()
 parser = argparse.ArgumentParser(description='Increment version in setup.py')
 parser.add_argument('--action','-a', help='specify the action to perform')
 args1 = parser.parse_args() 
