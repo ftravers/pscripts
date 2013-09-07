@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.19'
+version='0.1.20'
 name='pscripts'
 scripts = ['scripts/python-deployment']
 classifiers = [
@@ -9,12 +9,12 @@ setup(
     name = name,
     version = version,
     packages = [name],
-    description = 'Weechat Notification Plugin',
+    description = 'Automation Scripts for Linux',
     author='Fenton Travers',
     author_email='fenton.travers@gmail.com',
     url='www.google.com',
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
-    long_description='Some description',
+    long_description='Automates some python deployment steps',
     classifiers=classifiers,
     scripts = scripts
 )
