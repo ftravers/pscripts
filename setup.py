@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.16'
+version='0.1.17'
 name='pscripts'
 scripts = ['scripts/python-deployment']
 classifiers = [
