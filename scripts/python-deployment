@@ -17,6 +17,6 @@ if args1.action == "increment_version":
     sys.exit(0)
 
 if args1.action == "get_version":
-    d.get_version()
+    print(d.get_version())
     sys.exit(0)
 
