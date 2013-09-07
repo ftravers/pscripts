@@ -2,4 +2,4 @@
 
 import pscripts.deployment as d
 
-print(d.hello())
+d.increment_version()
