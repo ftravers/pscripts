@@ -4,34 +4,23 @@ from tempfile import mkstemp
 from shutil import move
 from os import remove, close
 import re, sys, pdb
-import argparse
+
 from tempfile import mkstemp
 
 setup_version_pattern = r"(\w+=')(\d+.\d+.)(\d+)('.*)"
 
 #### INTERFACE
 
-def increment_version(argv=None, overwrite=True):
-    # pdb.set_trace()
-    setup_file = get_setup_file(argv)
+def increment_version(setup_file="./setup.py", overwrite=True):
     new_file = replace(setup_file, process_line, overwrite)
     return new_file
 
-def get_version(setup_file=None):
-    if setup_file == None:
-        setup_file = get_setup_file(argv)
+def get_version(setup_file="./setup.py"):
     contents = open(setup_file).read()        
     match = re.search(setup_version_pattern, contents)
     return match.group(2) + match.group(3)
 
 #### HELPERS
-
-def get_setup_file(my_argv=None):
-    parser = argparse.ArgumentParser(description='Increment version in setup.py')
-    parser.add_argument('--file','-f', default="./setup.py", 
-                        help='the location of the setup file')
-    args1 = parser.parse_args(my_argv) # returns data from the options specified (echo)
-    return args1.file
 
 def inc_version(version):
     match = re.search(setup_version_pattern, version)
@@ -72,7 +61,6 @@ def replace(src_file_path, process_line, overwrite):
 def _test():
     test_inc_version()
     test_process_line()
-    test_get_setup_file()
     test_increment_version()
     test_get_version()
 
@@ -82,21 +70,10 @@ def test_get_version():
     assert version == "0.1.1"
 
 def test_increment_version():
-    args = ['--file', './test_setup.py']
-    newfile = increment_version(args, False)
+    setup_file = './test_setup.py'
+    newfile = increment_version(setup_file, overwrite=False)
     assert "version='0.1.2'" in open(newfile).read()        
     remove(newfile)
-
-def test_get_setup_file():
-    my_argv = ["-f", "~/projects/pscripts/setup.py"]
-    setup = get_setup_file(my_argv)
-    assert "~/projects/pscripts/setup.py" == setup
-    my_argv = ["--file", "~/projects/pscripts/setup.py"]
-    setup = get_setup_file(my_argv)
-    assert "~/projects/pscripts/setup.py" == setup
-    my_argv = []
-    setup = get_setup_file(my_argv)
-    assert "./setup.py" == setup
 
 def test_inc_version():
     ver = "version='1.3.4'\n"
