@@ -17,6 +17,13 @@ def increment_version(argv=None, overwrite=True):
     new_file = replace(setup_file, process_line, overwrite)
     return new_file
 
+def get_version(setup_file=None):
+    if setup_file == None:
+        setup_file = get_setup_file(argv)
+    contents = open(setup_file).read()        
+    match = re.search(setup_version_pattern, contents)
+    return match.group(2) + match.group(3)
+
 #### HELPERS
 
 def get_setup_file(my_argv=None):
@@ -67,6 +74,12 @@ def _test():
     test_process_line()
     test_get_setup_file()
     test_increment_version()
+    test_get_version()
+
+def test_get_version():
+    setup_file = "./test_setup.py"
+    version = get_version(setup_file)
+    assert version == "0.1.1"
 
 def test_increment_version():
     args = ['--file', './test_setup.py']

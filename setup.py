@@ -1,7 +1,7 @@
 from setuptools import setup
-version='0.1.2'
+version='0.1.5'
 name='pscripts'
-scripts = ['scripts/inc-ver']
+scripts = ['scripts/python-deployment']
 classifiers = [
         'Programming Language :: Python :: 3.3',
     ]
