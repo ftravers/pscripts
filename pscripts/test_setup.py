@@ -1,5 +1,6 @@
 from setuptools import setup
-version='0.1.1'scripts = ['scripts/inc-ver']
+version='0.1.1'
+scripts = ['scripts/inc-ver']
 classifiers = [
         'Programming Language :: Python :: 3.3',
     ]
