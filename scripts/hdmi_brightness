@@ -9,16 +9,16 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--increase','-i', action='store_true', help='Increase brightness')
 parser.add_argument('--decrease','-d', action='store_true', help='Decrease brightness')
 a = parser.parse_args() 
-#pdb.set_trace()
+# pdb.set_trace()
 if ((a.increase == False and a.decrease == False) or 
     (a.increase == True and a.decrease == True)):
     parser.print_help()
     sys.exit(0)
 
-if a.increase != None:
+if a.increase == True:
     hdmi.increase_brightness()
     sys.exit(0)
 
-if a.decrease != None:
+if a.decrease == True:
     hdmi.decrease_brightness()
     sys.exit(0)
