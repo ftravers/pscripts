@@ -4,7 +4,7 @@ from pdb import set_trace
 from subprocess import check_output, call
 from re import search 
 
-line_pattern = r"(.*) \d\.\d+"
+line_pattern = r"(\d\.\d+)"
 adjust_brightness_step_val = 0.1
 
 ##########################
