@@ -18,6 +18,7 @@ def increase_brightness():
     set_brightness(new_val)
 
 def decrease_brightness():
+    set_trace()
     line = get_brightness_line()
     val = extract_brightness(line)
     new_val = decrement(val)
