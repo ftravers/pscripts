@@ -51,7 +51,7 @@ def extract_brightness(line):
     # sample: b'\tBrightness: 0.50\n'
     pattern = r".* (\d\.\d)"
     match = search(pattern, line)
-    val = round(float(match.group(1)), 1)    
+    return round(float(match.group(1)), 1)    
 
 ##########################
 # TESTS
