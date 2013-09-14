@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from pdb import set_trace
 from subprocess import check_output, call
 from re import search 
 
@@ -10,6 +11,7 @@ adjust_brightness_step_val = 0.1
 # API
 
 def increase_brightness():
+    set_trace()
     line = get_brightness_line()
     val = extract_brightness(line)
     new_val = increment(val)
