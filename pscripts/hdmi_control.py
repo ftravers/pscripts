@@ -28,12 +28,12 @@ def decrease_brightness():
 # HELPERS
 
 def increment(start):
-    if start <= 1.0 - adjust_brightness_step_val:
+    if start + adjust_brightness_step_val > 1.0:
         return 1.0
     return round(start + adjust_brightness_step_val, 1)
 
 def decrement(start):
-    if start >= 0 + adjust_brightness_step_val:
+    if start - adjust_brightness_step_val <= 0:
         return 0.0
     return round(start - adjust_brightness_step_val, 1)
 
