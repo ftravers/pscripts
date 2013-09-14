@@ -8,6 +8,7 @@ parser = argparse.ArgumentParser(
     description='Control brightness on HDMI')
 parser.add_argument('--increase','-i', action='store_true', help='Increase brightness')
 parser.add_argument('--decrease','-d', action='store_true', help='Decrease brightness')
+parser.add_argument('--step','-s', help='0 < step < 1')
 a = parser.parse_args() 
 # pdb.set_trace()
 if ((a.increase == False and a.decrease == False) or 
@@ -16,9 +17,9 @@ if ((a.increase == False and a.decrease == False) or
     sys.exit(0)
 
 if a.increase == True:
-    hdmi.increase_brightness()
+    hdmi.increase_brightness(a.step)
     sys.exit(0)
 
 if a.decrease == True:
-    hdmi.decrease_brightness()
+    hdmi.decrease_brightness(a.step)
     sys.exit(0)

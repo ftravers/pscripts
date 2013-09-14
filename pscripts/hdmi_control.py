@@ -5,38 +5,37 @@ from subprocess import check_output, call
 from re import search 
 
 line_pattern = r"(\d\.\d+)"
-adjust_brightness_step_val = 0.1
 
 ##########################
 # API
 
-def increase_brightness():
+def increase_brightness(step=0.1):
     # set_trace()
     line = get_brightness_line()
     val = extract_brightness(line)
-    new_val = increment(val)
+    new_val = increment(val, step)
     set_brightness(new_val)
 
-def decrease_brightness():
+def decrease_brightness(step=0.1):
     # set_trace()
     line = get_brightness_line()
     val = extract_brightness(line)
-    new_val = decrement(val)
+    new_val = decrement(val, step)
     set_brightness(new_val)
 
 
 ##########################
 # HELPERS
 
-def increment(start):
-    if start + adjust_brightness_step_val > 1.0:
+def increment(start, step):
+    if start + step > 1.0:
         return 1.0
-    return round(start + adjust_brightness_step_val, 1)
+    return round(start + step, 1)
 
-def decrement(start):
-    if start - adjust_brightness_step_val <= 0:
+def decrement(start, step):
+    if start - step <= 0:
         return 0.0
-    return round(start - adjust_brightness_step_val, 1)
+    return round(start - step, 1)
 
 def set_brightness(val):
     # xrandr --output HDMI1  --brightness .5
