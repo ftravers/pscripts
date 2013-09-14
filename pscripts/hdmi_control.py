@@ -11,7 +11,7 @@ adjust_brightness_step_val = 0.1
 # API
 
 def increase_brightness():
-    set_trace()
+    # set_trace()
     line = get_brightness_line()
     val = extract_brightness(line)
     new_val = increment(val)
