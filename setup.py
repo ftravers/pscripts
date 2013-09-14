@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.36'
+version='0.1.37'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
