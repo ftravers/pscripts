@@ -10,8 +10,8 @@ parser.add_argument('--increase','-i', help='Increase brightness')
 parser.add_argument('--decrease','-d', help='Decrease brightness')
 a = parser.parse_args() 
 
-if ((a.increaes == None and a.decrese == None) or 
-    (a.increaes != None and a.decrese != None):
+if ((a.increase == None and a.decrease == None) or 
+    (a.increase != None and a.decrease != None):
     parser.print_help()
     sys.exit(0)
 
