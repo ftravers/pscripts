@@ -43,7 +43,7 @@ def set_brightness(val):
 def get_brightness_line():
     cmd = "xrandr --current --verbose | grep -A5 'HDMI1' | tail -1"
     output = check_output(cmd, shell=True)
-    return output
+    return output.decode("utf-8")
 
 def extract_brightness(line):
     # sample: b'\tBrightness: 0.50\n'
