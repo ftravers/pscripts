@@ -3,22 +3,22 @@
 import argparse, pdb, sys
 import pscripts.hdmi_control as hdmi 
 
-# pdb.set_trace()
+
 parser = argparse.ArgumentParser(
     description='Control brightness on HDMI')
-parser.add_argument('--increase','-i', help='Increase brightness')
-parser.add_argument('--decrease','-d', help='Decrease brightness')
+parser.add_argument('--increase','-i', action='store_true', help='Increase brightness')
+parser.add_argument('--decrease','-d', action='store_true', help='Decrease brightness')
 a = parser.parse_args() 
-
-if ((a['increase'] == None and a['decrease'] == None) or 
-    (a['increase'] != None and a['decrease'] != None)):
+#pdb.set_trace()
+if ((a.increase == False and a.decrease == False) or 
+    (a.increase == True and a.decrease == True)):
     parser.print_help()
     sys.exit(0)
 
-if a['increase'] != None:
+if a.increase != None:
     hdmi.increase_brightness()
     sys.exit(0)
 
-if a['decrease'] != None:
+if a.decrease != None:
     hdmi.decrease_brightness()
     sys.exit(0)

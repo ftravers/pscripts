@@ -11,13 +11,13 @@ adjust_brightness_step_val = 0.1
 
 def increase_brightness():
     line = get_brightness_line()
-    val = extract_brightness()
+    val = extract_brightness(line)
     new_val = increment(val)
     set_brightness(new_val)
 
 def decrease_brightness():
     line = get_brightness_line()
-    val = extract_brightness()
+    val = extract_brightness(line)
     new_val = decrement(val)
     set_brightness(new_val)
 
