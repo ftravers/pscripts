@@ -1,9 +1,10 @@
 from setuptools import setup
-version='0.1.46'
+version='0.1.47'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
-    'scripts/hdmi_brightness'    
+    'scripts/hdmi_brightness',
+    'scripts/get_external_ip',
 ]
 classifiers = [
         'Programming Language :: Python :: 3.3',
