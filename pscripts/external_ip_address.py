@@ -91,11 +91,8 @@ def get_external_ip():
     return ip
 
 def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
-    f = open(yaml_conf)
-    url_updater_hash = yaml.load(f, Loader=yaml.CLoader)
-    return url_updater_hash["urls"]
-
-
+    urls = get_yaml_setting("urls")
+    return urls
 
 #################################
 # TESTS
