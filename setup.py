@@ -24,6 +24,14 @@ install_requires=[
     'PyYAML >= 3.10',
     'pidfile >= 0.1.0',
     ]
+data_files=[('/etc/external_ip_updater/', 
+             ['config/urls.yaml.generic','config/config.conf.generic'])
+            ('/etc/systemd/system/',
+             ['config/update_external_ip.service'])
+]
+
+
+
 conf_dir="/etc/external_ip_updater/"
 class install(_install):
     def run(self):
@@ -47,7 +55,7 @@ setup(
     long_description='Automates some python deployment steps',
     classifiers=classifiers,
     scripts = scripts,
-    data_files=[('/etc/external_ip_updater/', ['config/urls.yaml.generic','config/config.conf.generic'])],
+    data_files=data_files,
     install_requires=install_requires,
     cmdclass={'install': install},
 )
