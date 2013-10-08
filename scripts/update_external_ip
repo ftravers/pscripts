@@ -4,7 +4,7 @@ import argparse, pdb, simpledaemon, time, logging
 import pscripts.external_ip_address as eia
 
 eia.yaml_file='/etc/external_ip_updater/urls.yaml'
-eia.ip_cache_file='/tmp/.current_external_ip'
+eia.ip_cache_file=eia.get_yaml_setting("ip_cache_file")
 
 class ExtIpUpdaterDaemon(simpledaemon.Daemon):
     default_conf = '/etc/external_ip_updater/config.conf'
