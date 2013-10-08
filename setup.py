@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.99'
+version='0.1.100'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -12,7 +12,6 @@ scripts = [
 classifiers = [ 'Programming Language :: Python :: 3.3',
                 'Development Status :: 4 - Beta',
                 'Intended Audience :: Developers',
-                'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
                 'Natural Language :: English',
                 'Operating System :: POSIX :: Linux',
                 'Topic :: System :: Systems Administration',
@@ -28,8 +27,6 @@ data_files=[('/etc/external_ip_updater/',
              ['config/urls.yaml.generic','config/config.conf.generic']),
             ('/etc/systemd/system/',
              ['config/update_external_ip.service']),]
-
-
 
 conf_dir="/etc/external_ip_updater/"
 class install(_install):

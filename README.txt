@@ -22,7 +22,12 @@ Log file is specified in:
 You can adjust the log levels between 'debug','info', and 'warn.
 Typically when all is running well, just leave it at 'info' only.
 
-** Start/Stop
+** Start/Stop test
 
     % sudo update_external_ip --start
     % sudo update_external_ip --stop
+
+** Systemd
+
+    % sudo systemctl enable update_external_ip.service
+    % sudo systemctl start update_external_ip.service
