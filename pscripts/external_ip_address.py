@@ -14,7 +14,7 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
 
     ddns_urls = read_yaml_update_urls(updater_urls)
     for domain, update_url in ddns_urls.items():
-        log.debug("For domain: {}, use update url: {}".format(domain,update_url))
+        log.debug("For domain: {}, the update url is: {}".format(domain,update_url))
         prev_ext_ip = read_ip_addy(domain)
         changed = ip_addy_changed(external_ip, prev_ext_ip)
         if changed:
@@ -41,7 +41,7 @@ def flush_ip_cache_file():
 
 def get_yaml_setting(setting="urls"):
     f = open(yaml_file)
-    url_updater_hash = yaml.load(f, Loader=yaml.CLoader)
+    url_updater_hash = yaml.load(f)
     return url_updater_hash[setting]
 
 def ip_addy_changed(external_ip, prev_ext_ip):
