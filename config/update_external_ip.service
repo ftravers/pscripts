@@ -3,7 +3,8 @@ Description=Update your dynamic IP address with a Dynamic DNS service
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/update_external_ip
+ExecStart=/usr/bin/update_external_ip --start
+ExecStop=/usr/bin/update_external_ip --stop
 PIDFile=/var/run/update_external_ip.pid
 Restart=on-abort
 
