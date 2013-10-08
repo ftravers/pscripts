@@ -54,10 +54,6 @@ def ip_addy_changed(external_ip, prev_ext_ip):
     else:
         return True
 
-def touch_ddns_server(url):
-    log.debug("touching url: {}".format(url))
-    resp = get_web_page(url).read()
-    log.debug("Response:\n{}".format(resp))
 
 def save_ip_addy(new_ip, domain):
     ip_updates = shelve.open(ip_cache_file)
@@ -96,9 +92,13 @@ def get_web_page(url):
     log.debug("Response:\n{}".format(resp))
     return resp
 
+def touch_ddns_server(url):
+    log.debug("touching url: {}".format(url))
+    resp = get_web_page(url)
+    log.debug("Response:\n{}".format(resp))
+
 def get_external_ip():
-    response = get_web_page('http://www.ip-secrets.com/')
-    html = response.read()
+    html = get_web_page('http://www.ip-secrets.com/')
     ip = extract_ip(html)
     return ip
 
