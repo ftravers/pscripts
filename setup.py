@@ -2,16 +2,22 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.95'
+version='0.1.96'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
     'scripts/hdmi_brightness',
     'scripts/update_external_ip',
 ]
-classifiers = [
-        'Programming Language :: Python :: 3.3',
-    ]
+classifiers = [ 'Programming Language :: Python :: 3.3',
+                'Development Status :: 4 - Beta',
+                'Intended Audience :: Developers',
+                'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
+                'Natural Language :: English',
+                'Operating System :: POSIX :: Linux',
+                'Topic :: System :: Systems Administration',
+                'Topic :: Utilities',
+            ]
 install_requires=[
     'setuptools',
     'SimpleDaemon >= 1.3.0',
