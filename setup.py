@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.62'
+version='0.1.63'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -15,7 +15,7 @@ install_requires=[
     'PyYAML >= 3.10',
     'pidfile >= 0.1.0',
     ]
-Data_Files = [('/etc/external_ip_updater/', ['urls.yaml','config.conf'])]
+Data_Files = [('/etc/external_ip_updater/', ['config/urls.yaml','config/config.conf'])]
 setup(
     name = name,
     version = version,
