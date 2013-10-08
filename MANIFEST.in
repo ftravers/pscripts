@@ -1,2 +1,2 @@
-config/config.conf
-config/urls.yaml
+include config/config.conf
+include config/urls.yaml
