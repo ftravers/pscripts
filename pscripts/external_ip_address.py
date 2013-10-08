@@ -2,7 +2,7 @@
 import re, sys, shelve, simpledaemon, time, os, yaml, html.parser, urllib.request
 import logging as log
 from pdb import set_trace
-import urllib.error.URLError
+from urllib.error import URLError
 
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
