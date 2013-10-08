@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.61'
+version='0.1.62'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -27,6 +27,6 @@ setup(
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     long_description='Automates some python deployment steps',
     classifiers=classifiers,
-    scripts = scripts
-    data_files=Data_Files
+    scripts = scripts,
+    data_files=Data_Files,
 )
