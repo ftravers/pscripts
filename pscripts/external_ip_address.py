@@ -11,6 +11,9 @@ yaml_file = '/etc/external_ip_updater/urls.yaml'
 # ENTRY POINT
 def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True):
     external_ip = get_external_ip()
+    if external_ip == None:
+        log.warn("Unable to determine external IP.  This may be temporary or not.  Verify this warning doesn't persist.")
+        return
     log.debug("External IP address {}".format(str(external_ip)))
 
     ddns_urls = read_yaml_update_urls(updater_urls)
@@ -77,12 +80,13 @@ def extract_ip(html):
     matches = re.search(ip_addy_regex, html.decode("utf-8", "ignore"))
     if not matches:
         print("Could not extract IP address from HTML:\n" + html)
-        sys.exit(1)
+        return None
     ip = matches.group(1)
     return ip
 
 def get_web_page(url):
     log.debug("getting url: {}".format(url))
+    resp = b''
     try:
         resp = urllib.request.urlopen(url)
     except URLError:
