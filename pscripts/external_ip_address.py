@@ -114,7 +114,9 @@ def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
 
 def get_ip_from_router():
     s = requests.Session()
-    s.auth = ('isnoatNictav', 'RokzucNeofhu')
+    set_trace()
+    credentials = get_yaml_setting("router_credentials")
+    s.auth = (credentials["username"], credentials["password"])
     resp = s.get('http://192.168.1.1/cgi-bin/status_deviceinfo.asp', auth=HTTPBasicAuth('isnoatNictav', 'RokzucNeofhu'))
     resp = s.get('http://192.168.1.1/cgi-bin/status_deviceinfo.asp', auth=HTTPBasicAuth('isnoatNictav', 'RokzucNeofhu'))
     ip_addy_regex = r"IP Address.*?(\d+\.\d+\.\d+\.\d+)"
