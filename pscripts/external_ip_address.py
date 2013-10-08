@@ -34,7 +34,8 @@ def get_refresh_period(updater_urls="/etc/external_ip_updater/urls.yaml"):
 
 def flush_ip_cache_file():
     log.debug("Removing file: {}".format(ip_cache_file))
-    os.remove(ip_cache_file)
+    if os.path.isfile(ip_cache_file):
+        os.remove(ip_cache_file)
 
 #################################
 # HELPERS
