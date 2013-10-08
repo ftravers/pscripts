@@ -48,8 +48,10 @@ def flush_ip_cache_file():
 # HELPERS
 
 def get_yaml_setting(setting="urls"):
+    log.debug("reading file: {}".format(yaml_file))
     f = open(yaml_file)
     url_updater_hash = yaml.load(f)
+    log.debug("yaml hash: {}".format(url_updater_hash))
     return url_updater_hash[setting]
 
 def ip_addy_changed(external_ip, prev_ext_ip):
