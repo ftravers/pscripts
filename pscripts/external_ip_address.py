@@ -2,6 +2,7 @@
 import re, sys, shelve, simpledaemon, time, os, yaml, html.parser, urllib.request
 import logging as log
 from pdb import set_trace
+import urllib.error.URLError
 
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
@@ -55,7 +56,11 @@ def ip_addy_changed(external_ip, prev_ext_ip):
 
 def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
-    resp = urllib.request.urlopen(url).read()
+    try:
+        resp = urllib.request.urlopen(url).read()
+    except URLError:
+        log.warn("Unable to reach out to update url: {}".format(url))
+        log.warn("Response was: {}".format(resp))
     log.debug("Response:\n{}".format(resp))
 
 def save_ip_addy(new_ip, domain):
