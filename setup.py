@@ -1,5 +1,7 @@
+from  setuptools  import  setup
+from  setuptools.command.install  import  install  as  _install
 from setuptools import setup
-version='0.1.80'
+version='0.1.81'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -15,6 +17,17 @@ install_requires=[
     'PyYAML >= 3.10',
     'pidfile >= 0.1.0',
     ]
+conf_dir="/etc/external_ip_updater/"
+class install(_install):
+    def run(self):
+        _install.run(self)
+        mv_file_if_not_present("urls.yaml")
+        mv_file_if_not_present("config.conf")
+
+    def mv_file_if_not_present(conf_file):
+        if not os.path.isfile( ${conf_dir} + conf_file ): 
+            os.rename(conf_dir + conf_file + ".generic", conf_dir + conf_file)
+            
 setup(
     name = name,
     version = version,
@@ -27,6 +40,7 @@ setup(
     long_description='Automates some python deployment steps',
     classifiers=classifiers,
     scripts = scripts,
-    data_files=[('/etc/external_ip_updater/', ['config/urls.yaml','config/config.conf'])],
-    install_requires=install_requires
+    data_files=[('/etc/external_ip_updater/', ['config/urls.yaml.generic','config/config.conf.generic'])],
+    install_requires=install_requires,
+    cmdclass={'install': install},
 )
