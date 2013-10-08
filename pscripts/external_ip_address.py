@@ -56,11 +56,7 @@ def ip_addy_changed(external_ip, prev_ext_ip):
 
 def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
-    try:
-        resp = urllib.request.urlopen(url).read()
-    except URLError:
-        log.warn("Unable to reach out to update url: {}".format(url))
-        log.warn("Response was: {}".format(resp))
+    resp = get_web_page(url).read()
     log.debug("Response:\n{}".format(resp))
 
 def save_ip_addy(new_ip, domain):
@@ -89,8 +85,19 @@ def extract_ip(html):
     ip = matches.group(1)
     return ip
 
+def get_web_page(url):
+    log.debug("getting url: {}".format(url))
+    resp = ""
+    try:
+        resp = urllib.request.urlopen(url).read()
+    except URLError:
+        log.warn("Unable to reach out to update url: {}".format(url))
+        log.warn("Response was: {}".format(resp))
+    log.debug("Response:\n{}".format(resp))
+    return resp
+
 def get_external_ip():
-    response = urllib.request.urlopen('http://www.ip-secrets.com/')
+    response = get_web_page('http://www.ip-secrets.com/')
     html = response.read()
     ip = extract_ip(html)
     return ip
