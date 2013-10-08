@@ -3,6 +3,9 @@ import re, sys, shelve, simpledaemon, time, os, yaml, html.parser, urllib.reques
 import logging as log
 from pdb import set_trace
 from urllib.error import URLError
+from requests.auth import HTTPDigestAuth
+from requests.auth import HTTPBasicAuth
+import requests
 
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
@@ -10,7 +13,7 @@ yaml_file = '/etc/external_ip_updater/urls.yaml'
 #################################
 # ENTRY POINT
 def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True):
-    external_ip = get_external_ip()
+    external_ip = get_ip_from_router()
     if external_ip == None:
         log.warn("Unable to determine external IP.  This may be temporary or not.  Verify this warning doesn't persist.")
         return
@@ -109,8 +112,23 @@ def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
     urls = get_yaml_setting("urls")
     return urls
 
+def get_ip_from_router():
+    s = requests.Session()
+    s.auth = ('isnoatNictav', 'RokzucNeofhu')
+    resp = s.get('http://192.168.1.1/cgi-bin/status_deviceinfo.asp', auth=HTTPBasicAuth('isnoatNictav', 'RokzucNeofhu'))
+    resp = s.get('http://192.168.1.1/cgi-bin/status_deviceinfo.asp', auth=HTTPBasicAuth('isnoatNictav', 'RokzucNeofhu'))
+    ip_addy_regex = r"IP Address.*?(\d+\.\d+\.\d+\.\d+)"
+    matches = re.findall(ip_addy_regex, resp.text, re.DOTALL)
+    # set_trace()
+    ip = matches[1]
+    return ip
+
 #################################
 # TESTS
+
+def test_get_ip_from_router():
+    resp = get_ip_from_router()
+    log.debug(resp)
 
 def test_get_update_period():
     period = get_refresh_period()
@@ -139,9 +157,9 @@ def test_extract_ip():
 if __name__ == '__main__':
     log.basicConfig(level=log.DEBUG)
     # test_update_ip()
-    test_extract_ip()
+    # test_extract_ip()
     # test_get_update_period()
-
+    test_get_ip_from_router()
 
 
 
