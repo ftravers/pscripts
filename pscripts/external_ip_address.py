@@ -28,7 +28,7 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
         log.debug("---------")
 
 def get_refresh_period(updater_urls="/etc/external_ip_updater/urls.yaml"):
-    return get_yaml_setting[setting="refresh_period_seconds"]
+    return get_yaml_setting(setting="refresh_period_seconds")
 
 def flush_ip_cache_file():
     log.debug("Removing file: {}".format(ip_cache_file))
