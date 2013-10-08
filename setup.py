@@ -1,7 +1,7 @@
 from  setuptools  import  setup
 from  setuptools.command.install  import  install  as  _install
 from setuptools import setup
-version='0.1.85'
+version='0.1.86'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -21,8 +21,8 @@ conf_dir="/etc/external_ip_updater/"
 class install(_install):
     def run(self):
         _install.run(self)
-        mv_file_if_not_present("urls.yaml")
-        mv_file_if_not_present("config.conf")
+        self.mv_file_if_not_present("urls.yaml")
+        self.mv_file_if_not_present("config.conf")
 
     def mv_file_if_not_present(self, conf_file):
         if not os.path.isfile( conf_dir + conf_file ): 
