@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.58'
+version='0.1.59'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -8,6 +8,12 @@ scripts = [
 ]
 classifiers = [
         'Programming Language :: Python :: 3.3',
+    ]
+install_requires=[
+    'setuptools',
+    'SimpleDaemon >= 1.3.0',
+    'PyYAML >= 3.10',
+    'pidfile >= 0.1.0',
     ]
 setup(
     name = name,
