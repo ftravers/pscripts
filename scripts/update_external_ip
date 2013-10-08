@@ -14,7 +14,7 @@ class ExtIpUpdaterDaemon(simpledaemon.Daemon):
         refresh_period_seconds = int(eia.get_yaml_setting("refresh_period_seconds"))
         eia.flush_ip_cache_file()
         while True:
-            eia.update_ddns_server(update=False)
+            eia.update_ddns_server()
             time.sleep(refresh_period_seconds)
 
 if __name__ == '__main__':
