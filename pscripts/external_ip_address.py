@@ -88,7 +88,7 @@ def get_web_page(url):
     log.debug("getting url: {}".format(url))
     resp = b''
     try:
-        resp = urllib.request.urlopen(url)
+        resp = urllib.request.urlopen(url).read()
     except URLError:
         log.warn("Unable to reach out to update url: {}".format(url))
         log.warn("Response was: {}".format(resp))
@@ -98,10 +98,10 @@ def get_web_page(url):
 def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
     resp = get_web_page(url)
-    log.debug("Response:\n{}".format(resp.read().decode("utf-8", "ignore")))
+    log.debug("Response:\n{}".format(resp.decode("utf-8", "ignore")))
 
 def get_external_ip():
-    html = get_web_page('http://www.ip-secrets.com/').read()
+    html = get_web_page('http://www.ip-secrets.com/')
     ip = extract_ip(html)
     return ip
 
