@@ -15,6 +15,7 @@ install_requires=[
     'PyYAML >= 3.10',
     'pidfile >= 0.1.0',
     ]
+Data_Files = [('/etc/external_ip_updater/', ['urls.yaml','config.conf'])]
 setup(
     name = name,
     version = version,
@@ -27,4 +28,7 @@ setup(
     long_description='Automates some python deployment steps',
     classifiers=classifiers,
     scripts = scripts
+data_files=[('bitmaps', ['bm/b1.gif', 'bm/b2.gif']),
+                  ('config', ['cfg/data.cfg']),
+                  ('/etc/init.d', ['init-script'])]
 )
