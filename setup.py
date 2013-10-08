@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.60'
+version='0.1.61'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -28,7 +28,5 @@ setup(
     long_description='Automates some python deployment steps',
     classifiers=classifiers,
     scripts = scripts
-data_files=[('bitmaps', ['bm/b1.gif', 'bm/b2.gif']),
-                  ('config', ['cfg/data.cfg']),
-                  ('/etc/init.d', ['init-script'])]
+    data_files=Data_Files
 )
