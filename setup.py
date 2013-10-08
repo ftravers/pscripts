@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.98'
+version='0.1.99'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -25,10 +25,9 @@ install_requires=[
     'pidfile >= 0.1.0',
     ]
 data_files=[('/etc/external_ip_updater/', 
-             ['config/urls.yaml.generic','config/config.conf.generic'])
+             ['config/urls.yaml.generic','config/config.conf.generic']),
             ('/etc/systemd/system/',
-             ['config/update_external_ip.service'])
-]
+             ['config/update_external_ip.service']),]
 
 
 
