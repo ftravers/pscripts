@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-import argparse, pdb
+import argparse, pdb, simpledaemon, time
 import pscripts.external_ip_address as eia
-import sys
 
 yaml_urls='/etc/external_ip_updater/urls.yaml'
 
