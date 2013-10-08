@@ -83,9 +83,8 @@ def extract_ip(html):
 
 def get_web_page(url):
     log.debug("getting url: {}".format(url))
-    resp = ""
     try:
-        resp = urllib.request.urlopen(url).read()
+        resp = urllib.request.urlopen(url)
     except URLError:
         log.warn("Unable to reach out to update url: {}".format(url))
         log.warn("Response was: {}".format(resp))
@@ -95,10 +94,10 @@ def get_web_page(url):
 def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
     resp = get_web_page(url)
-    log.debug("Response:\n{}".format(resp))
+    log.debug("Response:\n{}".format(resp.read().decode("utf-8", "ignore")))
 
 def get_external_ip():
-    html = get_web_page('http://www.ip-secrets.com/')
+    html = get_web_page('http://www.ip-secrets.com/').read()
     ip = extract_ip(html)
     return ip
 
@@ -123,7 +122,9 @@ def test_yaml():
     ddns_urls = read_yaml_update_urls(updater_urls)
     for domain, update_url in ddns_urls.items():
         print("For domain: {}, use update url: {}".format(domain,update_url))
-        
+
+def test_get_webpage():
+    html = get_web_page('http://www.ip-secrets.com/')
 
 def test_extract_ip():
     set_trace()
@@ -133,8 +134,9 @@ def test_extract_ip():
 
 if __name__ == '__main__':
     log.basicConfig(level=log.DEBUG)
-    #test_update_ip()
-    test_get_update_period()
+    # test_update_ip()
+    test_extract_ip()
+    # test_get_update_period()
 
 
 
