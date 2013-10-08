@@ -79,7 +79,7 @@ def extract_ip(html):
     ip_addy_regex = r"Your current IP-Adress:.*>(\d+\.\d+\.\d+\.\d+)"
     matches = re.search(ip_addy_regex, html.decode("utf-8", "ignore"))
     if not matches:
-        print("Could not extract IP address from HTML:\n" + html)
+        print("Could not extract IP address from HTML:\n".format(html))
         return None
     ip = matches.group(1)
     return ip
