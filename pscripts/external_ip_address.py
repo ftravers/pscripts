@@ -21,7 +21,7 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
             save_ip_addy(external_ip,domain)
             log.debug("IP changed")
             if update:
-                log.debug("Updating domain: {} with IP: {}".format(domain, external_ip)))
+                log.debug("Updating domain: {} with IP: {}".format(domain, external_ip))
                 touch_ddns_server(update_url)
         else:
             log.debug("IP not changed, wont DDNS update, or re-cache.")
