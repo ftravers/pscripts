@@ -3,17 +3,18 @@
 import argparse, pdb, simpledaemon, time
 import pscripts.external_ip_address as eia
 
-yaml_urls='/etc/external_ip_updater/urls.yaml'
+eia.yaml_file='/etc/external_ip_updater/urls.yaml'
+eia.ip_cache_file='/tmp/.current_external_ip'
 
 class ExtIpUpdaterDaemon(simpledaemon.Daemon):
     default_conf = '/etc/external_ip_updater/config.conf'
     section = 'external_ip_updater'
 
-
     def run(self):
-        refresh_period_seconds = int(eia.get_refresh_period(yaml_urls))
+        refresh_period_seconds = int(eia.get_yaml_setting("refresh_period_seconds"))
+        eia.flush_ip_cache_file()
         while True:
-            eia.update_ddns_server(updater_urls = yaml_urls, update=False)
+            eia.update_ddns_server(update=False)
             time.sleep(refresh_period_seconds)
 
 if __name__ == '__main__':

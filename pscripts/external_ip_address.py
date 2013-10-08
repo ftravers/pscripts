@@ -1,12 +1,10 @@
 #!/usr/bin/env python
-import re, sys, shelve, simpledaemon, time
+import re, sys, shelve, simpledaemon, time, os, yaml, html.parser, urllib.request
 import logging as log
 from pdb import set_trace
-import urllib.request
-import html.parser
-import yaml
 
-ip_file = '/tmp/.current_external_ip'
+ip_cache_file = '/tmp/.current_external_ip'
+yaml_file = '/etc/external_ip_updater/urls.yaml'
 
 #################################
 # ENTRY POINT
@@ -23,19 +21,27 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
             save_ip_addy(external_ip,domain)
             log.debug("IP changed")
             if update:
-                log.debug("Updating IP")
+                log.debug("Updating domain: {} with IP: {}".format(domain, external_ip)))
                 touch_ddns_server(update_url)
         else:
             log.debug("IP not changed, wont DDNS update, or re-cache.")
         log.debug("---------")
 
 def get_refresh_period(updater_urls="/etc/external_ip_updater/urls.yaml"):
-    f = open(updater_urls)
-    url_updater_hash = yaml.load(f, Loader=yaml.CLoader)
-    return url_updater_hash["refresh_period_seconds"]
+    return get_yaml_setting[setting="refresh_period_seconds"]
+
+def flush_ip_cache():
+    log.debug("Removing file: {}".format(ip_cache_file))
+    os.remove(ip_cache_file)
 
 #################################
 # HELPERS
+
+def get_yaml_setting(setting="urls"):
+    f = open(yaml_file)
+    url_updater_hash = yaml.load(f, Loader=yaml.CLoader)
+    return url_updater_hash[setting]
+
 def ip_addy_changed(external_ip, prev_ext_ip):
     if prev_ext_ip == None:
         return True
@@ -50,13 +56,13 @@ def touch_ddns_server(url):
     log.debug("Response:\n{}".format(resp))
 
 def save_ip_addy(new_ip, domain):
-    ip_updates = shelve.open(ip_file)
+    ip_updates = shelve.open(ip_cache_file)
     ip_updates[domain] = new_ip
     log.debug("Caching IP address: {}, under domain: {}".format(new_ip, domain))
     ip_updates.close
 
 def read_ip_addy(domain):
-    ip_updates = shelve.open(ip_file)
+    ip_updates = shelve.open(ip_cache_file)
     if ip_updates:
         if not domain in ip_updates:
             return None
