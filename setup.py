@@ -1,5 +1,5 @@
 from setuptools import setup
-version='0.1.69'
+version='0.1.70'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -27,5 +27,6 @@ setup(
     long_description='Automates some python deployment steps',
     classifiers=classifiers,
     scripts = scripts,
-    data_files=[('/etc/external_ip_updater/', ['config/urls.yaml','config/config.conf'])]
+    data_files=[('/etc/external_ip_updater/', ['config/urls.yaml','config/config.conf'])],
+    install_requires=install_requires
 )
