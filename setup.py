@@ -2,12 +2,13 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.117'
+version='0.1.118'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
     'scripts/hdmi_brightness',
     'scripts/update_external_ip',
+    'scripts/cp_exe_2_chroot_jail',
 ]
 classifiers = [ 'Programming Language :: Python :: 3.3',
                 'Development Status :: 4 - Beta',
