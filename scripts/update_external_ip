@@ -11,6 +11,9 @@ class ExtIpUpdaterDaemon(simpledaemon.Daemon):
     section = 'external_ip_updater'
 
     def run(self):
+
+        root_logger = logging.getLogger()
+        logging.info(str(root_logger.handlers))
         refresh_period_seconds = int(eia.get_yaml_setting("refresh_period_seconds"))
         eia.flush_ip_cache_file()
         while True:

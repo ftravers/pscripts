@@ -10,6 +10,21 @@ import requests
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
 
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(message)s')
+
+
+
+# tell the handler to use this format
+# console.setFormatter(formatter)
+# add the handler to the root logger
+# logging.getLogger('').addHandler(console)
+
+
+
+
+
+
+
 #################################
 # ENTRY POINT
 def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True):
