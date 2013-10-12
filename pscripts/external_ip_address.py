@@ -11,19 +11,10 @@ ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
 
 # formatter = log.Formatter('%(asctime)s - %(name)s - %(message)s')
-
-
-
 # tell the handler to use this format
 # console.setFormatter(formatter)
 # add the handler to the root logger
 # logging.getLogger('').addHandler(console)
-
-
-
-
-
-
 
 #################################
 # ENTRY POINT
@@ -77,7 +68,6 @@ def ip_addy_changed(external_ip, prev_ext_ip):
     else:
         return True
 
-
 def save_ip_addy(new_ip, domain):
     ip_updates = shelve.open(ip_cache_file)
     ip_updates[domain] = new_ip
@@ -119,11 +109,6 @@ def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
     resp = get_web_page(url)
     log.debug("Response:\n{}".format(resp.decode("utf-8", "ignore")))
-
-def get_external_ip():
-    html = get_web_page('http://www.ip-secrets.com/')
-    ip = extract_ip(html)
-    return ip
 
 def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
     urls = get_yaml_setting("urls")
