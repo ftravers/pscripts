@@ -19,28 +19,32 @@ yaml_file = '/etc/external_ip_updater/urls.yaml'
 #################################
 # ENTRY POINT
 def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True):
-    external_ip = get_ip_from_router()
-    if external_ip == None:
-        log.warn("Unable to determine external IP.  This may be temporary or not.  Verify this warning doesn't persist.")
+    try:
+        external_ip = get_ip_from_router()
+        if external_ip == None:
+            log.warn("Unable to determine external IP.  This may be temporary or not.  Verify this warning doesn't persist.")
+            return
+            log.debug("External IP address {}".format(str(external_ip)))
+            
+      ddns_urls = read_yaml_update_urls(updater_urls)
+      for domain, update_url in ddns_urls.items():
+          log.debug("For domain: {}, the update url is: {}".format(domain,update_url))
+          prev_ext_ip = read_ip_addy(domain)
+          changed = ip_addy_changed(external_ip, prev_ext_ip)
+          if changed:
+              log.debug("IP changed")
+              if update:
+                  log.info("Updating domain: {} with IP: {}".format(domain, external_ip))
+                  touch_ddns_server(update_url)
+                  save_ip_addy(external_ip,domain)
+              else:
+                  log.debug("Set to NOT update IP.")
+              else:
+                  log.debug("IP not changed, wont DDNS update, or re-cache.")
+                  log.debug("---------")
+    except Exception as e:
+        log.warn(e)
         return
-    log.debug("External IP address {}".format(str(external_ip)))
-
-    ddns_urls = read_yaml_update_urls(updater_urls)
-    for domain, update_url in ddns_urls.items():
-        log.debug("For domain: {}, the update url is: {}".format(domain,update_url))
-        prev_ext_ip = read_ip_addy(domain)
-        changed = ip_addy_changed(external_ip, prev_ext_ip)
-        if changed:
-            log.debug("IP changed")
-            if update:
-                log.info("Updating domain: {} with IP: {}".format(domain, external_ip))
-                touch_ddns_server(update_url)
-                save_ip_addy(external_ip,domain)
-            else:
-                log.debug("Set to NOT update IP.")
-        else:
-            log.debug("IP not changed, wont DDNS update, or re-cache.")
-        log.debug("---------")
 
 def get_refresh_period(updater_urls="/etc/external_ip_updater/urls.yaml"):
     return get_yaml_setting(setting="refresh_period_seconds")
@@ -124,6 +128,10 @@ def get_ip_from_router():
     ip_addy_regex = r"IP Address.*?(\d+\.\d+\.\d+\.\d+)"
     matches = re.findall(ip_addy_regex, resp.text, re.DOTALL)
     # set_trace()
+    if len( matches ) <= 1:
+        log.warn("Couldn't extract IP address from router HTML:")
+        log.warn(resp.text)
+        return None
     ip = matches[1]
     return ip
 
