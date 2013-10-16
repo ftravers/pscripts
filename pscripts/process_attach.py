@@ -8,10 +8,11 @@ def pipename(pid):
     return os.path.join(tempfile.gettempdir(), 'debug-%d' % pid)
 
 class NamedPipe(object):
-    def __init__(self, name, end=0, mode=0666):
+    def __init__(self, name, end=0, mode=0o666):
         """Open a pair of pipes, name.in and name.out for communication
         with another process.  One process should pass 1 for end, and the
         other 0.  Data is marshalled with pickle."""
+
         self.in_name, self.out_name = name +'.in',  name +'.out',
         try: os.mkfifo(self.in_name,mode)
         except OSError: pass

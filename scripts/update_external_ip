@@ -9,11 +9,14 @@ eia.ip_cache_file=eia.get_yaml_setting("ip_cache_file")
 
 root_logger = logging.getLogger()
 # logging.info(str(root_logger.handlers))
+# process_attach.listen()
+root_logger.handlers = []
+# Add the log message handler to the logger
+handler = logging.handlers.RotatingFileHandler(
+             '/var/log/update_external_ip.logger', maxBytes=20000, backupCount=5)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(message)s')
-handler = logging.StreamHandler()
 handler.setFormatter(formatter)
-process_attach.listen()
-
+root_logger.addHandler(handler)
 
 class ExtIpUpdaterDaemon(simpledaemon.Daemon):
     default_conf = '/etc/external_ip_updater/config.conf'
