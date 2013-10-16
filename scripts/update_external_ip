@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import argparse, pdb, simpledaemon, time, logging
+import argparse, pdb, simpledaemon, time, logging, logging.handlers
 import pscripts.external_ip_address as eia
 
 eia.yaml_file='/etc/external_ip_updater/urls.yaml'
@@ -12,8 +12,7 @@ root_logger = logging.getLogger()
 # process_attach.listen()
 root_logger.handlers = []
 # Add the log message handler to the logger
-handler = logging.handlers.RotatingFileHandler(
-             '/var/log/update_external_ip.logger', maxBytes=20000, backupCount=5)
+handler = logging.handlers.FileHandler('/var/log/update_external_ip.logger')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(message)s')
 handler.setFormatter(formatter)
 root_logger.addHandler(handler)
