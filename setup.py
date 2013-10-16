@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.137'
+version='0.1.138'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -31,6 +31,10 @@ data_files=[('/etc/external_ip_updater/',
              ['config/update_external_ip.service']),]
 
 conf_dir="/etc/external_ip_updater/"
+
+# this nonesense is so that we have a way to not over-write the 
+# config files of previous installs.  If they are present it
+# just adds them to that directory with a *.generic suffix.
 class install(_install):
     def run(self):
         _install.run(self)
