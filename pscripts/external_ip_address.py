@@ -6,21 +6,16 @@ from urllib.error import URLError
 from requests.auth import HTTPDigestAuth
 from requests.auth import HTTPBasicAuth
 import requests
+from subprocess import check_output
 
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
-
-# formatter = log.Formatter('%(asctime)s - %(name)s - %(message)s')
-# tell the handler to use this format
-# console.setFormatter(formatter)
-# add the handler to the root logger
-# logging.getLogger('').addHandler(console)
 
 #################################
 # ENTRY POINT
 def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True):
     try:
-        external_ip = get_ip_from_router()
+        external_ip = get_ip()
         if external_ip == None:
             log.warn("Unable to determine external IP.  This may be temporary or not.  Verify this warning doesn't persist.")
             return
@@ -87,17 +82,7 @@ def read_ip_addy(domain):
             log.debug("Cached IP address: {} retrieved for domain: {}".format(ip, domain))
             return ip 
 
-def extract_ip(html):
-    # set_trace()
-    ip_addy_regex = r"Your current IP-Adress:.*>(\d+\.\d+\.\d+\.\d+)"
-    matches = re.search(ip_addy_regex, html.decode("utf-8", "ignore"))
-    if not matches:
-        print("Could not extract IP address from HTML:\n".format(html))
-        return None
-    ip = matches.group(1)
-    return ip
-
-def get_web_page(url):
+def get_simple_webpage(url):
     log.debug("getting url: {}".format(url))
     resp = b''
     try:
@@ -110,36 +95,24 @@ def get_web_page(url):
 
 def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
-    resp = get_web_page(url)
+    resp = get_simple_webpage(url)
     log.debug("Response:\n{}".format(resp.decode("utf-8", "ignore")))
 
 def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
     urls = get_yaml_setting("urls")
     return urls
 
-def get_ip_from_router():
-    s = requests.Session()
-    # set_trace()
-    credentials = get_yaml_setting("router_credentials")
-    s.auth = (credentials["username"], credentials["password"])
-    resp = s.get('http://192.168.1.1/cgi-bin/status_deviceinfo.asp', auth=HTTPBasicAuth('isnoatNictav', 'RokzucNeofhu'))
-    resp = s.get('http://192.168.1.1/cgi-bin/status_deviceinfo.asp', auth=HTTPBasicAuth('isnoatNictav', 'RokzucNeofhu'))
-    ip_addy_regex = r"IP Address.*?(\d+\.\d+\.\d+\.\d+)"
-    matches = re.findall(ip_addy_regex, resp.text, re.DOTALL)
-    # set_trace()
-    if len( matches ) <= 1:
-        log.warn("Couldn't extract IP address from router HTML:")
-        log.warn(resp.text)
-        return None
-    ip = matches[1]
-    return ip
+def get_ip():
+    cmd = "curl icanhazip.com"
+    output = "{}".format(check_output(cmd, shell=True).strip().decode("utf-8", "ignore"))
+    return output
 
 #################################
 # TESTS
 
-def test_get_ip_from_router():
-    resp = get_ip_from_router()
-    log.debug(resp)
+def test_get_ip():
+    ip = get_ip()
+    log.debug("IP is: {}".format(ip))
 
 def test_get_update_period():
     period = get_refresh_period()
@@ -147,7 +120,6 @@ def test_get_update_period():
 
 def test_update_ip():
     updater_urls = "/etc/external_ip_updater/urls.yaml"
-    # set_trace()
     update_ddns_server(updater_urls, update=False)
 
 def test_yaml():
@@ -157,20 +129,10 @@ def test_yaml():
         print("For domain: {}, use update url: {}".format(domain,update_url))
 
 def test_get_webpage():
-    html = get_web_page('http://www.ip-secrets.com/')
-
-def test_extract_ip():
-    set_trace()
-    test_html=b'\t\t\t\t<span style="font-size: 1.4em">Your current IP-Adress: <font color="#FFFF33">110.168.32.26</font><br> \t\t\t\t\t\t\t\t<br>'
-    ip = extract_ip(test_html)
-    assert ip == "110.168.32.26"
+    html = get_simple_webpage('http://www.ip-secrets.com/')
 
 if __name__ == '__main__':
     log.basicConfig(level=log.DEBUG)
     # test_update_ip()
-    # test_extract_ip()
     # test_get_update_period()
-    test_get_ip_from_router()
-
-
-
+    test_get_ip()
