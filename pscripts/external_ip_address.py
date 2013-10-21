@@ -6,14 +6,14 @@ from urllib.error import URLError
 from requests.auth import HTTPDigestAuth
 from requests.auth import HTTPBasicAuth
 import requests
-from subprocess import check_output
+from subprocess import check_output,call
 
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
 
 #################################
 # ENTRY POINT
-def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True):
+def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True, force_update=False):
     try:
         external_ip = get_ip()
         if external_ip == None:
@@ -25,9 +25,9 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
             log.debug("For domain: {}, the update url is: {}".format(domain,update_url))
             prev_ext_ip = read_ip_addy(domain)
             changed = ip_addy_changed(external_ip, prev_ext_ip)
-            if changed:
+            if changed or force_update:
                 log.debug("IP changed")
-                if update:
+                if update or force_update:
                     log.info("Updating domain: {} with IP: {}".format(domain, external_ip))
                     touch_ddns_server(update_url)
                     save_ip_addy(external_ip,domain)
@@ -82,21 +82,11 @@ def read_ip_addy(domain):
             log.debug("Cached IP address: {} retrieved for domain: {}".format(ip, domain))
             return ip 
 
-def get_simple_webpage(url):
-    log.debug("getting url: {}".format(url))
-    resp = b''
-    try:
-        resp = urllib.request.urlopen(url).read()
-    except URLError:
-        log.warn("Unable to reach out to update url: {}".format(url))
-        log.warn("Response was: {}".format(resp))
-    log.debug("Response:\n{}".format(resp))
-    return resp
-
 def touch_ddns_server(url):
     log.debug("touching url: {}".format(url))
-    resp = get_simple_webpage(url)
-    log.debug("Response:\n{}".format(resp.decode("utf-8", "ignore")))
+    cmd = 'wget {}'.format(url).split()
+    log.debug("Issuing command: " + str(cmd))
+    resp = call(cmd)
 
 def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
     urls = get_yaml_setting("urls")
@@ -120,7 +110,7 @@ def test_get_update_period():
 
 def test_update_ip():
     updater_urls = "/etc/external_ip_updater/urls.yaml"
-    update_ddns_server(updater_urls, update=False)
+    update_ddns_server(updater_urls, force_update=True)
 
 def test_yaml():
     updater_urls = "/etc/external_ip_updater/urls.yaml"
@@ -133,6 +123,7 @@ def test_get_webpage():
 
 if __name__ == '__main__':
     log.basicConfig(level=log.DEBUG)
-    # test_update_ip()
+    # set_trace()
+    test_update_ip()
     # test_get_update_period()
-    test_get_ip()
+    # test_get_ip()
