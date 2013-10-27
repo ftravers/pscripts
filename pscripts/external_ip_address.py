@@ -8,12 +8,10 @@ from requests.auth import HTTPBasicAuth
 import requests
 from subprocess import check_output,call
 
-ip_cache_file = '/tmp/.current_external_ip'
-yaml_file = '/etc/external_ip_updater/urls.yaml'
 
 #################################
 # ENTRY POINT
-def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True, force_update=False):
+def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update=True, manual_force_update=False):
     try:
         external_ip = get_ip()
         if external_ip == None:
@@ -25,9 +23,9 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
             log.debug("For domain: {}, the update url is: {}".format(domain,update_url))
             prev_ext_ip = read_ip_addy(domain)
             changed = ip_addy_changed(external_ip, prev_ext_ip)
-            if changed or force_update:
-                log.debug("IP changed")
-                if update or force_update:
+            if changed or manual_force_update or periodic_force_update():
+                log.debug("IP changed or forcing update.")
+                if update or manual_force_update:
                     log.info("Updating domain: {} with IP: {}".format(domain, external_ip))
                     touch_ddns_server(update_url)
                     save_ip_addy(external_ip,domain)
@@ -50,6 +48,19 @@ def flush_ip_cache_file():
 
 #################################
 # HELPERS
+
+def periodic_force_update():
+    global periodic_force_update_timer
+    now = time.time()
+    elapsed_time = now - periodic_force_update_timer
+    if elapsed_time > periodic_force_update_period_seconds:
+        log.debug("Periodic force update timer elapsed.  Forcing update.")
+        periodic_force_update_timer = now
+        return True
+    return False
+
+def get_periodic_force_update_period():
+    return get_yaml_setting(setting="periodic_force_update_period_seconds")
 
 def get_yaml_setting(setting="urls"):
     log.debug("reading file: {}".format(yaml_file))
@@ -127,3 +138,11 @@ if __name__ == '__main__':
     test_update_ip()
     # test_get_update_period()
     # test_get_ip()
+
+##########################################
+# Settings
+--------------
+ip_cache_file = '/tmp/.current_external_ip'
+yaml_file = '/etc/external_ip_updater/urls.yaml'
+periodic_force_update_timer = time.time()
+periodic_force_update_period_seconds = get_periodic_force_update_period()
