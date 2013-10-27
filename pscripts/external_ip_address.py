@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
 ##########################################
 # Settings
---------------
+#--------------
 ip_cache_file = '/tmp/.current_external_ip'
 yaml_file = '/etc/external_ip_updater/urls.yaml'
 periodic_force_update_timer = time.time()
