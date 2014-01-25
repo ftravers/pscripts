@@ -3,7 +3,7 @@
 from tempfile import mkstemp
 from shutil import move
 from os import remove, close
-import re, sys, pdb
+import re, pdb
 
 from tempfile import mkstemp
 

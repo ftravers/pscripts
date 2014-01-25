@@ -17,7 +17,7 @@ def update_ddns_server(updater_urls="/etc/external_ip_updater/urls.yaml", update
         if external_ip == None:
             log.warn("Unable to determine external IP.  This may be temporary or not.  Verify this warning doesn't persist.")
             return
-        log.debug("External IP address {}".format(str(external_ip)))            
+        log.debug("External IP address {}".format(str(external_ip)))        
         ddns_urls = read_yaml_update_urls(updater_urls)
         for domain, update_url in ddns_urls.items():
             log.debug("For domain: {}, the update url is: {}".format(domain,update_url))

@@ -1,2 +1,4 @@
 dist/
 pscripts.egg-info/
+*.logger
+*.html

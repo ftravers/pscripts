@@ -1,0 +1,4 @@
+backup_destination: fenton@v3h.spicevan.com
+sync_folder:
+  source: /home/fenton/data
+  destination: /home/fenton/data

@@ -1,0 +1,24 @@
+* sync_folders
+
+This program will sync folders on your local machine with one or more
+target machines. 
+
+** Design 
+
+*** Phase 1
+
++ Program reads yaml file with description of which folders to sync
+  and where to sync them to.
+
+*** Phase 2
+
++ Make program deamonize, and write service file for it.  Follow
+  model of ip_updater.
+
+*** Phase 3
+
++ check computer activity to only run when there is little activity.
+  Check CPU usage somehow.  Check network usage/disk usage.
+
+  [[https://code.google.com/p/psutil/source/browse/examples/nettop.py][reference]]
+
