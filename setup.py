@@ -2,14 +2,13 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.147'
+version='0.1.149'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
     'scripts/hdmi_brightness',
     'scripts/update_external_ip',
     'scripts/cp_exe_2_chroot_jail',
-    'scripts/process_attach',
 ]
 classifiers = [ 'Programming Language :: Python :: 3.3',
                 'Development Status :: 4 - Beta',
@@ -24,7 +23,8 @@ install_requires=[
     'SimpleDaemon >= 1.3.0',
     'PyYAML >= 3.10',
     'pidfile >= 0.1.0',
-    ]
+    'requests >= 2.0.0',
+]
 data_files=[('/etc/external_ip_updater/', 
              ['config/urls.yaml.generic','config/config.conf.generic']),
             ('/etc/systemd/system/',
