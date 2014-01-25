@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.147'
+version='0.1.148'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
@@ -24,7 +24,8 @@ install_requires=[
     'SimpleDaemon >= 1.3.0',
     'PyYAML >= 3.10',
     'pidfile >= 0.1.0',
-    ]
+    'requests >= 2.0.0',
+]
 data_files=[('/etc/external_ip_updater/', 
              ['config/urls.yaml.generic','config/config.conf.generic']),
             ('/etc/systemd/system/',
