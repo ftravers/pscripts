@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.152'
+version='0.1.153'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
