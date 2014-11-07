@@ -2,11 +2,12 @@ from setuptools import setup
 from setuptools.command.install  import  install  as  _install
 from setuptools import setup
 import os
-version='0.1.149'
+version='0.1.150'
 name='pscripts'
 scripts = [
     'scripts/python-deployment',
     'scripts/hdmi_brightness',
+    'scripts/ss9_brightness',
     'scripts/update_external_ip',
     'scripts/cp_exe_2_chroot_jail',
 ]
