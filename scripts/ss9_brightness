@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+import argparse, sys, pdb
+import pscripts.file_management as fm
+
+root = "/sys/class/backlight/intel_backlight"
+max_bright_file = root + "/max_brightness"
+cur_bright_file = root + "/brightness"  
+    
+parser = argparse.ArgumentParser(
+description='Control brightness on SS9')
+
+parser.add_argument('--increase','-i', action='store_true', help='Increase brightness')
+parser.add_argument('--decrease','-d', action='store_true', help='Decrease brightness')
+parser.add_argument('--step','-s', help='1 <= step <= 30')
+
+a = parser.parse_args() 
+
+if ((a.increase == False and a.decrease == False) or 
+    (a.increase == True and a.decrease == True)):
+    parser.print_help()
+    sys.exit(1)
+
+if a.increase == True:
+    if a.step:
+        fm.increase_value( max_bright_file, cur_bright_file, int(a.step) )
+    else:
+        fm.increase_value( max_bright_file, cur_bright_file )
+        
+    sys.exit(0)
+
+if a.decrease == True:
+    if a.step:
+        fm.decrease_value( max_bright_file, cur_bright_file, int(a.step) )
+    else:
+        fm.decrease_value( max_bright_file, cur_bright_file )
+
+
+    sys.exit(0)
+

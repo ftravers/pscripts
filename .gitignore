@@ -2,3 +2,6 @@ dist/
 pscripts.egg-info/
 *.logger
 *.html
+tests/
+pscripts/__pycache__/
+build/
