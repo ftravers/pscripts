@@ -104,7 +104,7 @@ def read_yaml_update_urls(yaml_conf="/etc/external_ip_updater/urls.yaml"):
     return urls
 
 def get_ip():
-    cmd = "curl icanhazip.com"
+    cmd = "curl -4 icanhazip.com"
     output = "{}".format(check_output(cmd, shell=True).strip().decode("utf-8", "ignore"))
     return output
 
