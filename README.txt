@@ -1,4 +1,9 @@
 * External IP Address Updater
+** Install
+
+% sudo python setup.py install
+
+you may need to install: sudo pacman -S python-pip first.
 
 ** Overview
 
